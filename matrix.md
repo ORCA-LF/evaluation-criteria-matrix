@@ -2,90 +2,90 @@
 
 > Complete this matrix for a single implementation or system.  
 > Use ✅ / ❌ for checkboxes, *Low · Medium · High* for scales, and short text or numeric values as indicated.  
-> Prefer concise, practitioner-readable entries.
+> Right column widened for readability; reference SoK: Software Compartmentalization (IEEE S&P 2025) for taxonomy guidance.
 
 ---
 
 ## 🛡️ Security
 
-| **Dimension** | **Field Type** | **Value** |
-|----------------|----------------|------------|
-| Threat model of underlying mechanism | Short text + checkboxes |  |
-| Trust model coverage (Safebox / Sandbox / Mutual Distrust) | Checkboxes |  |
-| Granularity of isolation | Scale |  |
-| Failure taxonomy — location | Checkboxes |  |
-| Failure taxonomy — class | Checkboxes |  |
-| Blast radius / containment | Scale |  |
-| Degradation behavior | Short text |  |
-| Vulnerabilities blocked (classes) | Checkboxes |  |
+| **Dimension** | **Value / Notes** |
+|----------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Threat model (trusted vs untrusted components) | &nbsp; |
+| Underlying enforcement mechanism(s) | &nbsp; |
+| Security guarantees (e.g., memory safety, control-flow, syscall mediation) | &nbsp; |
+| Failure scope and resilience (where failures occur, what breaks) | &nbsp; |
+| Compromise propagation / containment (blast radius) | &nbsp; |
+| Trust model coverage (Safebox / Sandbox / Mutual Distrust) | &nbsp; |
+| Granularity of isolation (thread / process / VM / function) | &nbsp; |
 
 ---
 
 ## ⚙️ Runtime Efficiency
 
-| **Dimension** | **Field Type** | **Value** |
-|----------------|----------------|------------|
-| Launch/startup cost (ms) | Metric |  |
-| Compartment switch cost (µs) | Metric |  |
-| Inter-compartment latency (µs) | Metric |  |
-| Inter-compartment throughput (MB/s) | Metric |  |
-| Per-syscall overhead (%) | Metric |  |
-| Memory footprint (MB per compartment) | Metric |  |
-| Power/runtime overhead | Scale |  |
-| Scalability (scale-up / per-node) | Metric |  |
-| Scalability (scale-out / across nodes) | Short text |  |
+| **Dimension** | **Value / Notes** |
+|----------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| General runtime overhead (overall performance delta vs native) | &nbsp; |
+| Compartment switch cost (µs) | &nbsp; |
+| Compartment startup cost (ms) | &nbsp; |
+| Inter-compartment latency (µs) | &nbsp; |
+| Inter-compartment throughput (MB/s) | &nbsp; |
+| Memory footprint (MB per compartment) | &nbsp; |
+| Scalability (number of compartments supported efficiently) | &nbsp; |
+| Scalability-performance coupling (how performance scales with number of compartments) | &nbsp; |
 
 ---
 
 ## 🧩 Usability / Adoptability
 
-| **Dimension** | **Field Type** | **Value** |
-|----------------|----------------|------------|
-| Hardware changes required | ✅ / ❌ + notes |  |
-| OS / hypervisor changes | ✅ / ❌ + notes |  |
-| Operational access requirements | Checkboxes |  |
-| Application source changes | Scale |  |
-| Toolchain changes | Scale |  |
-| Binary rewriting / instrumentation | ✅ / ❌ + notes |  |
+| **Dimension** | **Value / Notes** |
+|----------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Hardware changes required | &nbsp; |
+| OS / hypervisor changes | &nbsp; |
+| Operational access requirements (root, kernel privileges, etc.) | &nbsp; |
+| Application source changes | &nbsp; |
+| Toolchain changes | &nbsp; |
+| Binary rewriting / instrumentation | &nbsp; |
 
 ---
 
 ## 🔗 Composability
 
-| **Dimension** | **Field Type** | **Value** |
-|----------------|----------------|------------|
-| Secure app interactions | Checkboxes |  |
-| API completeness | Scale |  |
-| Application decomposition model | Short text |  |
-| Composed protections caveats | Short text |  |
+| **Dimension** | **Value / Notes** |
+|----------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Directionality (protects others vs protects self) | &nbsp; |
+| Cross-framework composability (works with other compartment systems?) | &nbsp; |
+| Secure app interactions (IPC, shared memory, capability passing) | &nbsp; |
+| Application decomposition model | &nbsp; |
+| Composed protections caveats | &nbsp; |
 
 ---
 
 ## 👩‍💻 Adoption & Developer Effort
 
-| **Dimension** | **Field Type** | **Value** |
-|----------------|----------------|------------|
-| Developer effort (porting) | Scale + notes |  |
-| Build effort | Metric / scale |  |
-| Failure modes visibility | Short text |  |
-| Usage model / licensing | Checkboxes + notes |  |
+| **Dimension** | **Value / Notes** |
+|----------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Developer effort (porting) | &nbsp; |
+| Build effort | &nbsp; |
+| Failure modes visibility | &nbsp; |
+| Usage model / licensing | &nbsp; |
 
 ---
 
 ## 🧠 System Designer Perspective
 
-| **Dimension** | **Field Type** | **Value** |
-|----------------|----------------|------------|
-| Compatibility & extensibility | Short text + checkboxes |  |
+| **Dimension** | **Value / Notes** |
+|----------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Compatibility & extensibility (cloud, CI/CD, orchestration) | &nbsp; |
+| Target environment (embedded, PC, cloud, edge, etc.) | &nbsp; |
 
 ---
 
 ## 💰 Cost & Resources
 
-| **Dimension** | **Field Type** | **Value** |
-|----------------|----------------|------------|
-| Compute / resource needs | Metrics |  |
-| Monetary cost to deploy | Short text + metric |  |
+| **Dimension** | **Value / Notes** |
+|----------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Compute / resource requirements | &nbsp; |
+| Monetary cost to deploy | &nbsp; |
 
 ---
 
