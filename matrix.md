@@ -2,94 +2,94 @@
 
 > Complete this matrix for a single implementation or system.  
 > Use ✅ / ❌ for checkboxes, *Low · Medium · High* for scales, and short text or numeric values as indicated.  
-> Right column widened for readability; reference SoK: Software Compartmentalization (IEEE S&P 2025) for taxonomy guidance.
+> Each row includes a “Considerations / Metrics” column describing what should be measured or evaluated.
 
 ---
 
-## 🛡️ Security
+## Security
 
-| **Dimension** | **Value / Notes** |
-|----------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Threat model (trusted vs untrusted components) | &nbsp; |
-| Underlying enforcement mechanism(s) | &nbsp; |
-| Security guarantees (e.g., memory safety, control-flow, syscall mediation) | &nbsp; |
-| Failure scope and resilience (where failures occur, what breaks) | &nbsp; |
-| Compromise propagation / containment (blast radius) | &nbsp; |
-| Trust model coverage (Safebox / Sandbox / Mutual Distrust) | &nbsp; |
-| Granularity of isolation (thread / process / VM / function) | &nbsp; |
-
----
-
-## ⚙️ Runtime Efficiency
-
-| **Dimension** | **Value / Notes** |
-|----------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| General runtime overhead (overall performance delta vs native) | &nbsp; |
-| Compartment switch cost (µs) | &nbsp; |
-| Compartment startup cost (ms) | &nbsp; |
-| Inter-compartment latency (µs) | &nbsp; |
-| Inter-compartment throughput (MB/s) | &nbsp; |
-| Memory footprint (MB per compartment) | &nbsp; |
-| Scalability (number of compartments supported efficiently) | &nbsp; |
-| Scalability-performance coupling (how performance scales with number of compartments) | &nbsp; |
+| **Dimension** | **Considerations / Metrics** | **Value / Notes** |
+|----------------|------------------------------|-------------------|
+| Threat model (trusted vs untrusted components) | Which components are trusted/untrusted; typical attacker capabilities; assumptions and exclusions. |  |
+| Underlying enforcement mechanism(s) | Mechanism(s) providing isolation (hardware, SFI, microkernel, etc.); enforcement granularity. |  |
+| Security guarantees | Types of properties enforced (memory safety, control-flow integrity, syscall mediation, policy enforcement). |  |
+| Failure scope and resilience | Where failures occur (component, runtime, kernel, hardware) and how the system recovers or degrades. |  |
+| Compromise propagation / containment | Degree to which a compromise in one domain affects others; measurable blast radius. |  |
+| Trust model coverage | Which trust relations are supported: Safebox, Sandbox, or Mutual Distrust. |  |
+| Granularity of isolation | Finest supported isolation level (function, thread, process, VM, etc.) and enforcement method. |  |
 
 ---
 
-## 🧩 Usability / Adoptability
+## Runtime Efficiency
 
-| **Dimension** | **Value / Notes** |
-|----------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Hardware changes required | &nbsp; |
-| OS / hypervisor changes | &nbsp; |
-| Operational access requirements (root, kernel privileges, etc.) | &nbsp; |
-| Application source changes | &nbsp; |
-| Toolchain changes | &nbsp; |
-| Binary rewriting / instrumentation | &nbsp; |
-
----
-
-## 🔗 Composability
-
-| **Dimension** | **Value / Notes** |
-|----------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Directionality (protects others vs protects self) | &nbsp; |
-| Cross-framework composability (works with other compartment systems?) | &nbsp; |
-| Secure app interactions (IPC, shared memory, capability passing) | &nbsp; |
-| Application decomposition model | &nbsp; |
-| Composed protections caveats | &nbsp; |
+| **Dimension** | **Considerations / Metrics** | **Value / Notes** |
+|----------------|------------------------------|-------------------|
+| General runtime overhead | Overall performance delta vs native; aggregate application throughput or latency change (%). |  |
+| Compartment switch cost (µs) | Time to switch between isolated contexts (µs); may dominate total overhead in fine-grained models. |  |
+| Compartment startup cost (ms) | Initialization time to create a new compartment or domain (ms). |  |
+| Inter-compartment latency (µs) | Round-trip latency for message or syscall crossing between compartments. |  |
+| Inter-compartment throughput (MB/s) | Sustained communication throughput between compartments. |  |
+| Memory footprint (MB per compartment) | Static and dynamic memory overhead per compartment. |  |
+| Scalability (scale-up) | Maximum number of compartments supported efficiently on a single node. |  |
+| Scalability-performance coupling | Relationship between compartment count and performance degradation. |  |
 
 ---
 
-## 👩‍💻 Adoption & Developer Effort
+## Usability / Adoptability
 
-| **Dimension** | **Value / Notes** |
-|----------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Developer effort (porting) | &nbsp; |
-| Build effort | &nbsp; |
-| Failure modes visibility | &nbsp; |
-| Usage model / licensing | &nbsp; |
-
----
-
-## 🧠 System Designer Perspective
-
-| **Dimension** | **Value / Notes** |
-|----------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Compatibility & extensibility (cloud, CI/CD, orchestration) | &nbsp; |
-| Target environment (embedded, PC, cloud, edge, etc.) | &nbsp; |
+| **Dimension** | **Considerations / Metrics** | **Value / Notes** |
+|----------------|------------------------------|-------------------|
+| Hardware changes required | Specialized CPU or hardware support (MPK, MTE, CHERI, etc.) required to run the system. |  |
+| OS / hypervisor changes | Kernel, microkernel, or hypervisor modifications required. |  |
+| Operational access requirements | Privileges needed (root, kernel module, hypervisor control, etc.). |  |
+| Application source changes | Source-level changes or code refactoring needed for compatibility. |  |
+| Toolchain changes | Custom compiler, linker, or runtime dependencies. |  |
+| Binary rewriting / instrumentation | Binary rewriting required (static, dynamic, or loader-based). |  |
 
 ---
 
-## 💰 Cost & Resources
+## Composability
 
-| **Dimension** | **Value / Notes** |
-|----------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Compute / resource requirements | &nbsp; |
-| Monetary cost to deploy | &nbsp; |
+| **Dimension** | **Considerations / Metrics** | **Value / Notes** |
+|----------------|------------------------------|-------------------|
+| Directionality (protects others vs protects self) | Whether isolation primarily protects other components, the compartment itself, or both. |  |
+| Cross-framework composability | Ability to compose with other isolation mechanisms (kernel, hypervisor, userspace frameworks). |  |
+| Secure app interactions | Support for IPC, shared memory, message passing, or capability-based interfaces. |  |
+| Application decomposition model | Typical compartmentalization unit (per-lib, per-service, per-thread, etc.). |  |
+| Composed protections caveats | Limitations when multiple layers of compartmentalization interact. |  |
 
 ---
 
-## 📋 Adopter Summary
+## Adoption & Developer Effort
+
+| **Dimension** | **Considerations / Metrics** | **Value / Notes** |
+|----------------|------------------------------|-------------------|
+| Developer effort (porting) | Approximate developer time or complexity to port an existing app. |  |
+| Build effort | Changes to build process, build time overhead, or dependency management. |  |
+| Failure modes visibility | How failures manifest to developers (crashes, logs, error codes). |  |
+| Usage model / licensing | Open-source, commercial, or restricted licensing; ease of access. |  |
+
+---
+
+## System Designer Perspective
+
+| **Dimension** | **Considerations / Metrics** | **Value / Notes** |
+|----------------|------------------------------|-------------------|
+| Compatibility & extensibility | Integrations with orchestration tools, CI/CD, monitoring, and packaging. |  |
+| Target environment | Intended use domain: embedded, IoT, cloud, edge, workstation, etc. |  |
+
+---
+
+## Cost & Resources
+
+| **Dimension** | **Considerations / Metrics** | **Value / Notes** |
+|----------------|------------------------------|-------------------|
+| Compute / resource requirements | CPU, memory, and storage overhead compared to baseline. |  |
+| Monetary cost to deploy | Hardware cost, license fees, or operational expense implications. |  |
+
+---
+
+## Adopter Summary
 
 > **What it is:**  
 > **Who it’s for:**  
