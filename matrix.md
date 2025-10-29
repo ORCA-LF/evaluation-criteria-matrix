@@ -50,16 +50,16 @@
 
 | **Dimension** | **Metric** | **Value / Notes** |
 |----------------|------------|-------------------|
-| **System Requirements** | | |
-| Hardware requirements | Commodity / Specialized (specify: ___) | |
-| Runs on commodity x86-64/ARM64 | ✅ / ❌ | |
-| OS/kernel requirements | Stock / Module / Modified / Custom / Other: ___ | |
-| Privilege requirements | User / Root / Kernel access | |
-| **Application Changes** | | |
-| Source modifications required | None / Annotations / API changes / Refactoring / Other: ___ | |
-| Binary compatibility | Unmodified / Recompile / Rewrite | |
-| Toolchain requirements | Standard / Modified / Custom | |
-| Language support | C/C++ / Rust / Go / Managed / Any / Other: ___ | |
+| **Deployment Assumptions** | | |
+| What hardware does it need? | Commodity / Specialized (specify: ___) | |
+| What OS/kernel does it need? | Stock / Module / Modified / Custom | |
+| What privileges does it need? | User / Root / Kernel access | |
+| Other deployment requirements | [e.g., "Custom libc", "Modified toolchain"] | |
+| **Software Compatibility** | | |
+| What application changes are needed? | None / Annotations / API changes / Refactoring / Rewrite | |
+| Can it run existing binaries? | Yes / Recompile only / Source changes needed | |
+| What languages does it support? | C/C++ / Rust / Go / Managed / Any / Other: ___ | |
+| Other compatibility notes | [Describe any other constraints] | |
 | **Developer Effort** | | |
 | Porting effort for typical app | [person-days] or Low / Medium / High | |
 | Required expertise level | Low / Medium / High / Expert | |
