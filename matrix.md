@@ -9,15 +9,15 @@
 
 | **Dimension** | **Metric** | **Value / Notes** |
 |----------------|------------|-------------------|
-| **Isolation Approach** | | |
-| Hardware primitive(s) | Page tables / MPK / MTE / CHERI / Virtualization / Other: ___ / None | |
-| Software technique(s) | SFI / Type system / Language runtime / Other: ___ / None | |
-| Isolation abstraction | Process / Thread / Protection domain / VM / Container / Other: ___ | |
-| Mechanism requires additional software for safety | ✅ / ❌ (if yes, describe: ___) | |
 | **Isolation Model** | | |
+| Primary use case | Untrusted library isolation / Secret/key protection / Fault isolation / Supply chain defense / Other: ___ | |
 | Subject selection | Code-centric / Data-centric / Hybrid | |
 | Finest isolation granularity | Function / Library / Thread / Process / VM / Other: ___ | |
-| Primary use case | Untrusted library isolation / Secret/key protection / Fault isolation / Supply chain defense / Other: ___ | |
+| **Isolation Approach** | | |
+| Hardware primitive(s) | MPK/PKU / MTE / CHERI / TEEs / Other: ___ / None | |
+| Software technique(s) | SFI / Boundary wrappers/marshalling / Memory-safe language / Language runtime / Other: ___ / None | |
+| Isolation abstraction | Process / Thread / Protection domain / VM / Container / Other: ___ | |
+| Requires runtime software support | ✅ / ❌ (if yes, describe: ___) | |
 | **Properties Enforced** | | |
 | Security properties provided | [Describe: e.g., "Memory integrity and confidentiality, syscall filtering"] | |
 | **Resilience** | | |
@@ -94,7 +94,6 @@
 | Threading model | Works with standard threads / Requires custom threading / Other: ___ | |
 | Process model | Works with fork/exec / Custom / N/A | |
 | POSIX compatibility | Full / Partial / Limited | |
-| Standard tool compatibility | Debuggers/profilers work: ✅ / ❌ / Partial | |
 | **Composition Limitations** | | |
 | Known limitations when composed | [Describe: e.g., "Performance degrades 2x when inside VMs", "Cannot nest with other MPK users"] | |
 | Security caveats when layered | [Describe: e.g., "Outer layer can bypass inner protections"] | |
