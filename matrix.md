@@ -10,24 +10,24 @@
 | **Dimension** | **Metric** | **Value / Notes** |
 |----------------|------------|-------------------|
 | **Isolation Model** | | |
-| Primary use case | Untrusted library isolation / Secret/key protection / Fault isolation / Supply chain defense / Other: ___ | |
+| Primary use case | Untrusted component isolation / Secret protection / Fault isolation / Other: ___ | |
 | Subject selection | Code-centric / Data-centric / Hybrid | |
 | Finest isolation granularity | Function / Library / Thread / Process / VM / Other: ___ | |
 | **Isolation Approach** | | |
-| Hardware primitive(s) | MPK/PKU / MTE / CHERI / TEEs / Other: ___ / None | |
+| Hardware primitive(s) | MPK or PKU / MTE / CHERI / TEEs / Other: ___ / None | |
 | Software technique(s) | SFI / Boundary wrappers/marshalling / Memory-safe language / Language runtime / Other: ___ / None | |
-| Isolation abstraction | Process / Thread / Protection domain / VM / Container / Other: ___ | |
+| Isolation abstraction | Process / Thread / Intra-Address Space Domain / VM / Container / Other: ___ | |
 | Requires runtime software support | ✅ / ❌ (if yes, describe: ___) | |
 | **Properties Enforced** | | |
 | Security properties provided | [Describe: e.g., "Memory integrity and confidentiality, syscall filtering"] | |
 | **Resilience** | | |
 | Compartment crashes isolated | ✅ / ❌ | |
 | **Interface Safety** | | |
-| Boundaries are checked/validated | ✅ / ❌ / Partial | |
+| Provides mean to facilitate boundary checking/validation | ✅ / ❌ / Partial | |
 | **Trust & Threats** | | |
 | TCB includes | Compiler / OS / Firmware / CPU / Other: ___ (list applicable) | |
 | TCB approximate size | Small / Medium / Large / Very Large or [LOC/component count if known] | |
-| Side-channel resistance | None / Partial / Strong (if Partial/Strong, describe mitigations: ___) | |
+| Side-channel resistance | None / Or describe mitigations: ___ | |
 
 ---
 
@@ -35,11 +35,11 @@
 
 | **Dimension** | **Metric** | **Value / Notes** |
 |----------------|------------|-------------------|
-| General runtime overhead | [%] or Low / Medium / High | |
+| General runtime overhead | [%] | |
 | Domain switch cost | [µs] or <1µs / 1-10µs / 10-100µs / >100µs | |
 | Domain creation cost | [ms] or <1ms / 1-10ms / >10ms | |
-| Inter-domain call latency | [µs] or Low / Medium / High | |
-| Inter-domain throughput | [MB/s] or Low / Medium / High | |
+| Inter-domain call latency | [µs]  | |
+| Inter-domain throughput | [MB/s]  | |
 | Memory overhead per domain | [KB/MB] or <10KB / 10-100KB / >100KB | |
 | Maximum domains (practical limit) | [number] or <10 / 10-100 / 100-1000 / >1000 | |
 | Performance scales with domain count | Well / Moderately / Poorly | |
@@ -61,7 +61,7 @@
 | What languages does it support? | C/C++ / Rust / Go / Managed / Any / Other: ___ | |
 | Other compatibility notes | [Describe any other constraints] | |
 | **Developer Effort** | | |
-| Porting effort for typical app | [person-days] or Low / Medium / High | |
+| Porting effort for typical app | [person-days] | |
 | Required expertise level | Low / Medium / High / Expert | |
 | Build effort | Changes to build process, build time overhead, or dependency management | |
 | **Developer Experience** | | |
@@ -69,7 +69,7 @@
 | Failure modes visibility | How failures manifest (crashes / logs / error codes / silent failures) | |
 | **Availability** | | |
 | Usage model / licensing | Open source / Commercial / Research / Restricted / Other: ___ | |
-| Ease of access | Easy to obtain / Requires approval / Difficult / Other: ___ | |
+| Ease of access | Openly accessible / Requires approval / Closed source / Other: ___ | |
 
 ---
 
@@ -83,7 +83,7 @@
 | Can be layered/stacked | ✅ / ❌ | |
 | **Inter-Compartment Interactions** | | |
 | How compartments invoke each other | Function calls / Message passing / RPC / Syscalls / Other: ___ | |
-| How compartments share data | Shared memory / Message copying / Serialization / Other: ___ | |
+| How compartments share data | Shared memory / Message passing / Serialization / Other: ___ | |
 | Interaction semantics | Synchronous / Asynchronous / Both | |
 | Interaction security/validation | [Describe: e.g., "Capability-based interface", "Type-checked", "Manual validation", "None"] | |
 | **Decomposition Model** | | |
@@ -114,15 +114,6 @@
 | Configuration complexity | Low / Medium / High | |
 | Maintenance burden | Low / Medium / High | |
 
----
-
-## Cost & Resources
-
-| **Dimension** | **Metric** | **Value / Notes** |
-|----------------|------------|-------------------|
-| CPU/memory overhead | Low / Medium / High | |
-| Requires specialized hardware | ✅ / ❌ (if yes: ___) | |
-| License/operational costs | Free / Moderate / High / Enterprise | |
 
 ---
 
@@ -134,3 +125,4 @@
 > **What it costs (effort/money/performance):**  
 > **What it needs (hardware/OS/expertise):**  
 > **Key tradeoffs:**
+> **Additional Notes:**
