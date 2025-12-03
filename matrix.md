@@ -27,7 +27,7 @@
 | **Trust & Threats** | | |
 | TCB includes | Compiler / OS / Firmware / CPU / Other: ___ (list applicable) | |
 | TCB approximate size | Small / Medium / Large / Very Large or [LOC/component count if known] | |
-| Side-channel resistance | None / Or describe mitigations: ___ | |
+| Side-channel resistance | ✅ / ❌ (if yes, describe mitigations: ___) | |
 
 ---
 
