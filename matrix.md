@@ -12,7 +12,8 @@
 | **Isolation Model** | | |
 | Primary use case | Untrusted component isolation / Secret protection / Fault isolation / Other: ___ | |
 | Subject selection | Code-centric / Data-centric / Hybrid | |
-| Finest isolation granularity | Function / Library / Thread / Process / VM / Other: ___ | |
+| Code-centric granularity | Function / Library / Thread / Process / VM / N/A | |
+| Data-centric granularity | Object / Region / Page / Allocation / File / N/A | |
 | **Isolation Approach** | | |
 | Hardware primitive(s) | MPK or PKU / MTE / CHERI / TEEs / Other: ___ / None | |
 | Software technique(s) | SFI / Boundary wrappers/marshalling / Memory-safe language / Language runtime / Other: ___ / None | |
@@ -23,7 +24,7 @@
 | **Resilience** | | |
 | Compartment crashes isolated | ✅ / ❌ | |
 | **Interface Safety** | | |
-| Provides mean to facilitate boundary checking/validation | ✅ / ❌ / Partial | |
+| Provides means to facilitate boundary checking/validation | ✅ / ❌ / Partial | |
 | **Trust & Threats** | | |
 | TCB includes | Compiler / OS / Firmware / CPU / Other: ___ (list applicable) | |
 | TCB approximate size | Small / Medium / Large / Very Large or [LOC/component count if known] | |
@@ -35,14 +36,14 @@
 
 | **Dimension** | **Metric** | **Value / Notes** |
 |----------------|------------|-------------------|
-| General runtime overhead | [%] | |
-| Domain switch cost | [µs] or <1µs / 1-10µs / 10-100µs / >100µs | |
-| Domain creation cost | [ms] or <1ms / 1-10ms / >10ms | |
-| Inter-domain call latency | [µs]  | |
-| Inter-domain throughput | [MB/s]  | |
-| Memory overhead per domain | [KB/MB] or <10KB / 10-100KB / >100KB | |
-| Maximum domains (practical limit) | [number] or <10 / 10-100 / 100-1000 / >1000 | |
-| Performance scales with domain count | Well / Moderately / Poorly | |
+| General runtime overhead | SPEC 2017 (platform/native) | |
+| Domain switch cost | lmbench lat_ctx (platform/native) | |
+| Domain creation cost | lmbench lat_proc exec (platform/native) | |
+| Inter-domain call latency | lmbench lat_pipe (platform/native) | |
+| Inter-domain throughput | lmbench bw_pipe (platform/native) | |
+| Memory overhead per domain | MB/domain | |
+| Maximum practical domains | [number] | |
+| Performance scales with domain count | Big O | |
 
 ---
 
@@ -114,7 +115,6 @@
 | Configuration complexity | Low / Medium / High | |
 | Maintenance burden | Low / Medium / High | |
 
-
 ---
 
 ## Summary
@@ -124,5 +124,5 @@
 > **What it protects:**  
 > **What it costs (effort/money/performance):**  
 > **What it needs (hardware/OS/expertise):**  
-> **Key tradeoffs:**
+> **Key tradeoffs:**  
 > **Additional Notes:**
