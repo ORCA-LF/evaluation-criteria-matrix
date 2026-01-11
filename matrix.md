@@ -1,5 +1,7 @@
 # Compartmentalization Evaluation Matrix
 
+**Version:** v0.1
+
 > Complete this matrix for a single implementation or system.  
 > Use ✅ / ❌ for checkboxes, categorical scales, and short text values as indicated.
 
@@ -28,7 +30,7 @@
 | **Trust & Threats** | | |
 | TCB includes | Compiler / OS / Firmware / CPU / Other: ___ (list applicable) | |
 | TCB approximate size | Small / Medium / Large / Very Large or [LOC/component count if known] | |
-| Side-channel resistance | ✅ / ❌ (if yes, describe mitigations: ___) | |
+| Side-channel resistance | Cache-based / Timing / Speculative-execution / Other: ___ / None (describe mitigations: ___) | |
 
 ---
 
@@ -42,7 +44,7 @@
 | Inter-domain call latency | lmbench lat_pipe (platform/native) | |
 | Inter-domain throughput | lmbench bw_pipe (platform/native) | |
 | Memory overhead per domain | MB/domain | |
-| Maximum practical domains | [number] | |
+| Domain count bounded by | Limiting factor: ___; Approximate domain count: ___ | |
 | Performance scales with domain count | Big O | |
 
 ---
@@ -69,8 +71,8 @@
 | Debugging support | Standard tools / Custom tools / Limited | |
 | Failure modes visibility | How failures manifest (crashes / logs / error codes / silent failures) | |
 | **Availability** | | |
-| Usage model / licensing | Open source / Commercial / Research / Restricted / Other: ___ | |
-| Ease of access | Openly accessible / Requires approval / Closed source / Other: ___ | |
+| License | Open source / Closed source / Commercial / Other: ___ | |
+| Primary usage | Production / Research / Internal tooling / Experimental / Other: ___ | |
 
 ---
 
@@ -110,10 +112,9 @@
 | Deployment scale | Single device / Cluster / Large scale | |
 | **Integration** | | |
 | Monitoring/orchestration support | Good / Limited / None | |
-| CI/CD compatibility | Good / Limited / Custom | |
 | **Operations** | | |
-| Configuration complexity | Low / Medium / High | |
-| Maintenance burden | Low / Medium / High | |
+| Initial configuration complexity | Low / Medium / High | |
+| Ongoing maintenance burden | Low / Medium / High | |
 
 ---
 
@@ -125,4 +126,4 @@
 > **What it costs (effort/money/performance):**  
 > **What it needs (hardware/OS/expertise):**  
 > **Key tradeoffs:**  
-> **Additional Notes:**
+> **Additional Notes:**  
