@@ -31,6 +31,9 @@
 | TCB includes | Compiler / OS / Firmware / CPU / Other: ___ (list applicable) | |
 | TCB approximate size | Small / Medium / Large / Very Large or [LOC/component count if known] | |
 | Side-channel resistance | Cache-based / Timing / Speculative-execution / Other: ___ / None (describe mitigations: ___) | |
+| **Validation** | | |
+| Formal validation available | Yes (specify: ___) / No | |
+| Experimental validation available | Yes (specify: ___) / No | |
 
 ---
 
@@ -81,16 +84,16 @@
 | **Dimension** | **Metric** | **Value / Notes** |
 |----------------|------------|-------------------|
 | **Cross-Framework Composability** | | |
-| Works with VMs/containers | ✅ / ❌ / Partial | |
-| Works with other compartmentalization systems | ✅ / ❌ (if no, specify which conflict: ___) | |
-| Can be layered/stacked | ✅ / ❌ | |
+| Integrates with other compartmentalization mechanisms | ✅ / ❌ (can be combined with other isolation mechanisms) | |
+| Can coexist with other compartmentalization systems | ✅ / ❌ (side-by-side without interference) | |
+| Can stack effectively | ✅ / ❌ (multiple instances of the same mechanism compose correctly) | |
 | **Inter-Compartment Interactions** | | |
 | How compartments invoke each other | Function calls / Message passing / RPC / Syscalls / Other: ___ | |
 | How compartments share data | Shared memory / Message passing / Serialization / Other: ___ | |
 | Interaction semantics | Synchronous / Asynchronous / Both | |
 | Interaction security/validation | [Describe: e.g., "Capability-based interface", "Type-checked", "Manual validation", "None"] | |
 | **Decomposition Model** | | |
-| Typical compartment boundary | Library / Service / Thread / Process / VM / Other: ___ | |
+| Decomposition boundary | Library / Service / Thread / Process / VM / Other: ___ | |
 | Who defines boundaries | Programmer / Compiler / Runtime / Kernel / Hardware | |
 | Boundaries flexible at runtime | ✅ / ❌ | |
 | **System Integration** | | |
