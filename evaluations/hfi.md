@@ -20,7 +20,7 @@
 | Data-centric granularity | Object / Region / Page / Allocation / File / N/A | **Region / Object** — explicit "small" regions are **byte-granular** (fine-grain object sharing); implicit regions are power-of-2 sized/aligned. |
 | **Isolation Approach** | | |
 | Hardware primitive(s) | MPK/PKU / MTE / CHERI / TEEs / Other / None | **Other — HFI's own new ISA "regions" primitive** (base/bound/permission registers), a *proposed* hardware extension (not MPK/MTE/CHERI/TEE, and explicitly not MMU-based). |
-| Software technique(s) | SFI / Boundary wrappers/marshalling / Memory-safe language / Language runtime / Other / None | **Complements/replaces SFI** — integrates with Wasm/SFI in "hybrid" mode (trusting a Wasm compiler/verifier); for "native" sandboxes uses **boundary wrappers** (springboards/trampolines to clear registers + switch stacks). |
+| Software technique(s) | SFI / Boundary wrappers/marshalling / Memory-safe language / Language runtime / Other / None | **Two enforcement modes.** (1) **Explicit regions** accelerate Wasm/SFI sandboxing in "hybrid" mode (trusting a Wasm compiler/verifier). (2) **Implicit regions plus syscall interception** sandbox unmodified "native" binaries, using **boundary wrappers** (springboards/trampolines to clear registers + switch stacks). |
 | Isolation abstraction | Process / Thread / Intra-Address Space Domain / VM / Container / Other | **Intra-Address Space Domain** — multiple sandboxes share the process address space, isolated by region registers. |
 | Requires runtime software support | ✅ / ❌ (describe) | **✅** — a **trusted runtime** manages sandboxes (region setup, `hfi_enter`/`hfi_exit`, exit handler); plus minimal OS support to save HFI registers on context switch. |
 | **Properties Enforced** | | |
@@ -125,7 +125,7 @@
 
 ## Summary
 
-> **What it is:** A proposed minimal x86-64 ISA extension that provides hardware-enforced in-process isolation via **regions** (base/bound/permission registers), entirely in userspace — designed to replace/complement software SFI (Wasm) *and* to sandbox unmodified native binaries — with near-zero overhead, arbitrary sandbox scalability, complete syscall interposition, and by-construction Spectre safety. Evaluated in gem5 + compiler emulation (no shipping silicon).
+> **What it is:** A proposed minimal x86-64 ISA extension that provides hardware-enforced in-process isolation via **regions** (base/bound/permission registers), entirely in userspace. It has two enforcement mechanisms: **explicit regions** to accelerate Wasm/SFI sandboxing, and **implicit regions plus syscall interception** to sandbox unmodified native binaries. Near-zero overhead, arbitrary sandbox scalability, complete syscall interposition, and by-construction Spectre safety. Evaluated in gem5 + compiler emulation (no shipping silicon).
 >
 > **Who it's for:** Wasm-runtime / FaaS-platform / browser builders who need fast, scalable, Spectre-safe in-process isolation — and anyone wanting to sandbox unmodified native code or JIT.
 >
@@ -137,4 +137,4 @@
 >
 > **Key tradeoffs:** Solves SFI's core problems at once — performance, scaling to arbitrary sandboxes, **Spectre safety**, and **unmodified-native-binary + JIT compatibility** — with minimal hardware; but it requires a hardware change absent from every shipping CPU (simulation-only), hybrid (Wasm) mode trusts the compiler/verifier, and complete Spectre security still needs a holistic approach.
 >
-> **Additional Notes:** Uniquely in this set, HFI (1) addresses Spectre/speculative side channels **by design** (almost every other system lists them out of scope) and (2) sandboxes **unmodified native binaries + JIT code**. But it is a hardware *proposal*, not a usable system — a different maturity class from the deployed software systems; weight that heavily in any comparison.
+> **Additional Notes:** HFI provides two enforcement mechanisms: explicit regions for accelerating Wasm sandboxing, and implicit regions plus syscall interception for sandboxing unmodified native binaries. Uniquely in this set, it (1) addresses Spectre/speculative side channels **by design** (almost every other system lists them out of scope) and (2) sandboxes **unmodified native binaries + JIT code**. It is a hardware proposal, not a shipping system (evaluated only in gem5 simulation plus compiler emulation), so its results are a different maturity class from the deployed software systems; weight that in any comparison. Post-publication: Samuel Groß (Google) noted HFI is sufficient to support Chrome's "Ubercage" sandbox, and there is an ongoing effort to standardize an HFI spec for RISC-V (ratification plan at zatian.notion.site/HFI-Ratification-Plan and a RISC-V HFI draft at ziangtian.github.io/assets/pdf/hfi-riscv-v1.pdf).
