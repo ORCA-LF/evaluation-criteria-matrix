@@ -9,13 +9,13 @@ only applies to systems that have a PR open; otherwise just use the rendered-mat
 
 Hi [AUTHOR NAME],
 
-I'm Nick Renner, a contributor to ORCA from NYU Tandon. ORCA (the Open Robust Compartmentalization Alliance, part of the Linux Foundation) is a vendor-neutral group working to make isolation and compartmentalization practical in real software. As part of that, we're building a public side-by-side comparison of compartmentalization systems, scored on a common set of dimensions, so researchers and practitioners can see how the approaches actually compare and pick what fits their needs.
+I'm Nick Renner, a contributor to ORCA from NYU Tandon. ORCA, the Open Robust Compartmentalization Alliance, is a vendor-neutral group under the Linux Foundation working to make isolation and compartmentalization practical in real software. As part of that we're building a public, side-by-side comparison of compartmentalization systems, scored on a common set of dimensions. We think these entries will help people find and cite your work when they're comparing isolation approaches, so it would be great to have your eyes on the details.
 
-I've filled in the entry for [SYSTEM] from your paper. Since I'm working from the paper and not running the system, some cells are my own judgment rather than things you stated, and since this will be a shared reference I'd like to get them right. Would you mind checking it over?
+I've filled in the entry for [SYSTEM] from your paper. Since I worked from the paper and not the running system, some cells are my own judgment rather than things you stated, so I'd like to make sure I got them right.
 
 [LINK]
 
-The "Where I need review" section lists the cells I inferred or wasn't sure about, so those are the most useful to look at. Any corrections are welcome, here or as comments on the PR.
+The "Where I need review" section lists the cells I inferred or wasn't sure about, so those are the most useful to look at. Corrections are welcome, either by replying or as comments on the PR. We'll plan to merge next week if you're unable to get to it, but if at any point you'd like to open an issue or send a PR, that works too.
 
 Thanks,
 Nick Renner
