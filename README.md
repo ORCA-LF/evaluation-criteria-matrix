@@ -34,6 +34,12 @@ The aim is to source or flag values rather than guess at them, though some cells
 - [LFI](evaluations/lfi.md): Lightweight Fault Isolation, a software fault isolation scheme for AArch64 and x86-64 (ASPLOS 2024).
 - [RLBox](evaluations/rlbox.md): retrofitting fine-grain isolation of untrusted C/C++ libraries, shipped in Firefox (USENIX Security 2020).
 
+The following three are widely deployed isolation baselines, spanning the hardware-VM, userspace-kernel, and language-VM points in the design space:
+
+- [Firecracker](evaluations/firecracker.md): a lightweight VMM that isolates each workload in a microVM (NSDI 2020).
+- [gVisor](evaluations/gvisor.md): a userspace kernel that sandboxes containers behind a syscall-intercepting guard.
+- [Cloudflare Workers](evaluations/cloudflare-workers.md): per-tenant isolation using V8 isolates for JavaScript and WebAssembly.
+
 More evaluations are in progress and are added through pull requests.
 
 ## Contributing and review
