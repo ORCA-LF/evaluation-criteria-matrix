@@ -19,8 +19,8 @@
 | Code-centric granularity | Function / Library / Thread / Process / VM / N/A | **Process** — a vProcess (a fused Linux program, with vThreads). |
 | Data-centric granularity | Object / Region / Page / Allocation / File / N/A | **N/A.** |
 | **Isolation Approach** | | |
-| Hardware primitive(s) | MPK/PKU / MTE / CHERI / TEEs / Other / None | **MPK (Intel/AMD)** + **μSwitch implicit kernel-context switching** (for per-domain kernel resources). |
-| Software technique(s) | SFI / Boundary wrappers/marshalling / Memory-safe language / Language runtime / Other / None | **Boundary wrappers** (protected mode-switch gates) + **CFI** + **binary inspection** (eliminates WRPKRU/WRGSBASE in app code) + **per-domain Seccomp** filters. |
+| Hardware primitive(s) | MPK/PKU / MTE / CHERI / TEEs / Other / None | **MPK (Intel/AMD)**. |
+| Software technique(s) | SFI / Boundary wrappers/marshalling / Memory-safe language / Language runtime / Other / None | **μSwitch implicit kernel-context switching** (a software mechanism for per-domain kernel resources, per the author) + **boundary wrappers** (protected mode-switch gates) + **control-flow integrity between the monitor and each vProcess, enforced by those protected mode-switch gates** (as in ERIM, per the paper) + **binary inspection** (eliminates WRPKRU/WRGSBASE in app code) + **per-domain Seccomp** filters. |
 | Isolation abstraction | Process / Thread / Intra-Address Space Domain / VM / Container / Other | **Intra-Address Space Domain** — vProcesses share one address space, separated by MPK domains. |
 | Requires runtime software support | ✅ / ❌ (describe) | **✅** — a privileged user-space **monitor** (scheduling, memory, ELF loading, signals, network I/O), a μSwitch-modified kernel, DPDK/F-Stack, io_uring, Seccomp. |
 | **Properties Enforced** | | |
