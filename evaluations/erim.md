@@ -19,18 +19,18 @@
 | Code-centric granularity | Function / Library / Thread / Process / VM / N/A | **Function / Library** — T is a set of marked functions or a dynamic library. |
 | Data-centric granularity | Object / Region / Page / Allocation / File / N/A | **Region** — M_T is a reserved address-space region tagged to an MPK domain; MPK is page-granular. |
 | **Isolation Approach** | | |
-| Hardware primitive(s) | MPK/PKU / MTE / CHERI / TEEs / Other / None | **MPK (Intel Memory Protection Keys)** — up to 16 domains via the per-core PKRU register; `WRPKRU` switches in userspace. |
+| Hardware primitive(s) | MPK/PKU / MTE / CHERI / TEEs / Other / None | **MPK (Memory Protection Keys)** — up to 16 domains via the per-core PKRU register; `WRPKRU` switches in userspace. Available on Intel and, since the paper, on AMD. Per the author, Arm has a similar permission overlay, though adopting it may take extra work since the binary rewriting may not work out of the box. |
 | Software technique(s) | SFI / Boundary wrappers/marshalling / Memory-safe language / Language runtime / Other / None | **Boundary wrappers (call gates)** + **binary inspection / rewriting** (forbids exploitable `WRPKRU`/`XRSTOR`); explicitly **not SFI** and **does not require CFI**. |
 | Isolation abstraction | Process / Thread / Intra-Address Space Domain / VM / Container / Other | **Intra-Address Space Domain** — MPK domains within one process. |
-| Requires runtime software support | ✅ / ❌ (describe) | **✅** — a small ERIM library (~**569 LoC**: call gates, init, an M_T memory allocator, binary inspection) linked into each process, plus interception via seccomp-bpf+ptrace or an optional LSM. |
+| Requires runtime software support | ✅ / ❌ (describe) | **✅** — a small ERIM library (~**569 LoC**: call gates, init, an M_T memory allocator, binary inspection) linked into each process, plus interception via seccomp-bpf+ptrace or an optional LSM. Per the author, for OS-based attack vectors ERIM must be combined with a Trusted Entry Monitor (TEM) component (repo `src/tem`), applied via LSM or ptrace; the proof-of-concept covers a subset of system calls. |
 | **Properties Enforced** | | |
-| Security properties provided | [Describe] | **In-process memory isolation of M_T from U** — confidentiality+integrity (or an integrity-only/write-protection mode) — enforced by two invariants: M_T inaccessible while in U, and access enabled only atomically with a control transfer to a designated T entry point. Achieved **without CFI** in U; binary inspection guarantees no exploitable PKRU-updating instruction is executable. |
+| Security properties provided | [Describe] | **In-process memory isolation of M_T from U** — confidentiality+integrity (or an integrity-only/write-protection mode) — enforced by two invariants: M_T inaccessible while in U, and access enabled only atomically with a control transfer to a designated T entry point. Achieved **without CFI** in U; binary inspection ensures the only executable `WRPKRU`/`XRSTOR` instructions are the legitimate ones inside call gates (a call gate's `WRPKRU` must be executable in U for the domain transfer, per the author), with inadvertent or exploitable occurrences removed or rewritten. Full protection against OS-based attack vectors additionally requires combining ERIM with the TEM component. |
 | **Resilience** | | |
 | Compartment crashes isolated | ✅ / ❌ | **Unknown** — ERIM is a confidentiality/integrity mechanism, not a crash-isolation/recovery one. A detected exploitation attempt or illegal M_T access **terminates the program** (call-gate check / page fault); the paper does not frame domain crash isolation or recovery. |
 | **Interface Safety** | | |
 | Provides means to facilitate boundary checking/validation | ✅ / ❌ / Partial | **Partial** — call gates enforce that control enters T only at designated entry points (control-flow safety), **but** they intentionally do **not** pass/validate parameters (shared via a buffer in M_U) and do **not** scrub registers/stack — T must do that itself. |
 | **Trust & Threats** | | |
-| TCB includes | Compiler / OS / Firmware / CPU / Other (list) | **CPU/hardware (MPK)**, the **OS kernel**, the **ERIM library** (~569 LoC, incl. binary inspection) linked into each process, and the **trusted component T** (assumed vulnerability-free, no leaks, scrubs secrets). U is fully untrusted — may contain memory-corruption + control-flow-hijack bugs. The OS loader is trusted to run ERIM's init first. |
+| TCB includes | Compiler / OS / Firmware / CPU / Other (list) | **CPU/hardware (MPK)**, the **OS kernel**, the **ERIM library** (~569 LoC, incl. binary inspection) linked into each process, the **TEM component** (for OS-attack-vector protection), and the **trusted component T** (assumed vulnerability-free, no leaks, scrubs secrets). U is fully untrusted — may contain memory-corruption + control-flow-hijack bugs. The OS loader is trusted to run ERIM's init first. |
 | TCB approximate size | Small / Medium / Large / Very Large or [LOC] | **ERIM-specific: Small** — runtime library **569 LoC**; the binary rewriter (~**2,250 LoC**) is a build-time tool, not runtime TCB. **System TCB: Large** (includes the OS kernel). |
 | Side-channel resistance | Cache / Timing / Speculative / Other / None (mitigations) | **None** — side-channel and rowhammer attacks, and microarchitectural leaks ... are beyond the scope of this work (compatible with existing defenses). |
 | **Validation** | | |
@@ -59,7 +59,7 @@
 | **Dimension** | **Metric** | **Value / Notes** |
 |----------------|------------|-------------------|
 | **Deployment Assumptions** | | |
-| What hardware does it need? | Commodity / Specialized | **Specialized (commodity)** — Intel **MPK** (x86, Skylake-SP and later). |
+| What hardware does it need? | Commodity / Specialized | **Specialized (commodity)** — **MPK** on x86 (Intel Skylake-SP and later; AMD has since added `WRPKRU`). Per the author, Arm's permission overlay is a candidate but may need extra work, since the binary rewriting may not work out of the box. |
 | What OS/kernel does it need? | Stock / Module / Modified / Custom | **Stock** — runs on stock Linux ≥ 4.6 (MPK support); interception via seccomp-bpf + ptrace, or an optional LSM / an 8-LoC seccomp-bpf kernel change for efficiency. **No kernel changes required**. |
 | What privileges does it need? | User / Root / Kernel access | **User** — call gates and `WRPKRU` run entirely in userspace; no syscall for switching. |
 | Other deployment requirements | [e.g. custom libc, modified toolchain] | The ERIM library (via `LD_PRELOAD` for the binary-only approach); optional binary rewriting to remove inadvertent `WRPKRU`/`XRSTOR`; **no compiler changes required**. Requires DEP/W^X. |
@@ -67,7 +67,7 @@
 | What application changes are needed? | None / Annotations / API changes / Refactoring / Rewrite | **Three options:** **None** (binary-only — wrap an unmodified dynamic library via `LD_PRELOAD`); **Annotations/API** (source — wrap functions with `ERIM_SWITCH_T/U` call-gate macros, e.g. OpenSSL+SQLite **437 LoC**); or **compiler pass** (e.g. CPI, **300 LoC** in LLVM). |
 | Can it run existing binaries? | Yes / Recompile only / Source changes needed | **Yes** for the binary-only approach (unmodified dynamic library + `LD_PRELOAD`); **source changes** for finer/custom isolation. |
 | What languages does it support? | C/C++ / Rust / Go / Managed / Any / Other | **C/C++** primarily (binary-level); also protects **managed runtimes** from native libraries (Node.js case study). Language-agnostic on the untrusted side (operates on x86 binaries). |
-| Other compatibility notes | [Describe] | x86-only (ARM memory domains lack userspace switching); requires DEP/W^X; prototype is incompatible with apps already using MPK for other purposes (not fundamental). |
+| Other compatibility notes | [Describe] | Prototype is x86 (Intel/AMD MPK); per the author, Arm's permission overlay is a candidate but may need extra work since binary rewriting may not port directly. Requires DEP/W^X; prototype is incompatible with apps already using MPK for other purposes (not fundamental). |
 | **Developer Effort** | | |
 | Porting effort for typical app | [person-days] | **Small** — hundreds of LoC per app (OpenSSL+SQLite 437 LoC; CPI LLVM pass 300 LoC); no person-days figure reported. |
 | Required expertise level | Low / Medium / High / Expert | **N/A** — self-report/operational dimension; not assessable by an external evaluator from the paper. |
@@ -76,7 +76,7 @@
 | Debugging support | Standard / Custom / Limited | **N/A** — self-report/operational dimension; not assessable by an external evaluator from the paper. |
 | Failure modes visibility | [crashes/logs/error codes/silent] | Exploitation attempts / illegal M_T access → **program termination** (call-gate check on line 12 of the gate, or a page fault); binary inspection **rejects** executable pages with unsafe `WRPKRU`/`XRSTOR`. |
 | **Availability** | | |
-| License | Open source / Closed / Commercial / Other | **Open source — license Unknown.** Paper: Available online at `gitlab.mpi-sws.org/`… (ERIM project, §6 footnote). A GitHub mirror (`vahldiek/erim`) reports SPDX **NOASSERTION** (no detected license). **License not clearly stated.** |
+| License | Open source / Closed / Commercial / Other | **Open source — Creative Commons.** Per the author, the project moved to GitHub and carries a CC license at `github.com/vahldiek/erim/blob/master/LICENSE`. |
 | Primary usage | Production / Research / Internal / Experimental / Other | **Research** — prototype with three case studies. |
 
 ---
@@ -103,7 +103,7 @@
 | Process model | fork/exec / Custom / N/A | **In-process** — ERIM isolates within a single process; orthogonal to fork/exec. |
 | POSIX compatibility | Full / Partial / Limited | **Full** — a userspace library on stock Linux; no POSIX restrictions on the application. |
 | **Composition Limitations** | | |
-| Known limitations when composed | [Describe] | ≤16 MPK domains; conflicts with other MPK users (not fundamental); x86-only; requires DEP/W^X; needs a list of correct T entry points. |
+| Known limitations when composed | [Describe] | ≤16 MPK domains; conflicts with other MPK users (not fundamental); x86 today (Intel/AMD; Arm permission overlay a candidate per the author); requires DEP/W^X; needs a list of correct T entry points. |
 | Security caveats when layered | [Describe] | T is assumed vulnerability-free and must scrub registers/stack and not call back into U with M_T enabled; binary inspection must catch **all** `WRPKRU`/`XRSTOR`; side channels out of scope; integrity-only mode is weaker than full isolation. |
 
 ---
