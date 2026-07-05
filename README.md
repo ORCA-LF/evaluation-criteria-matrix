@@ -33,6 +33,7 @@ The aim is to source or flag values rather than guess at them, though some cells
 - [Cerberus](evaluations/cerberus.md): a PKU/MPK sandbox hardening framework that makes existing in-process isolation schemes non-bypassable (EuroSys 2022).
 - [ERIM](evaluations/erim.md): in-process isolation of a trusted component's data using MPK plus binary inspection, without requiring CFI (USENIX Security 2019).
 - [HFI](evaluations/hfi.md): a proposed x86-64 ISA extension for hardware-enforced in-process isolation, with Spectre safety by construction (ASPLOS 2023).
+- [K23](evaluations/k23.md): a general-purpose x86-64 system-call interposition primitive providing complete, tamper-resistant mediation of an application's syscall interface, the building block that syscall-based sandboxes depend on (ACM Middleware 2025).
 - [LFI](evaluations/lfi.md): Lightweight Fault Isolation, a software fault isolation scheme for AArch64 and x86-64 (ASPLOS 2024).
 - [Pegasus](evaluations/pegasus.md): transparent kernel-bypass networking that fuses same-tenant programs into one address space with MPK isolation (EuroSys 2025).
 - [RLBox](evaluations/rlbox.md): retrofitting fine-grain isolation of untrusted C/C++ libraries, shipped in Firefox (USENIX Security 2020).
