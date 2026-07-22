@@ -520,3 +520,27 @@ Every eval was re-audited against its source paper via `pdftotext` extraction (o
 - **occlum** — header "Evaluated 2026-06-08" vs in-cell "policy 2026-06-09" date mismatch (cosmetic).
 - **endoprocess**, **cloudflare-workers** — header legend says "⚠️ Unclear" but body uses "Unknown" (cosmetic vocab drift).
 - **gvisor** — Monitoring/orchestration rated "Good" (vs N/A); justified inline via OCI integration but the grade is partly evaluator judgment.
+
+---
+
+## DIFC CLUSTER 2026-07-22 — HiStar, Flume, Asbestos (added by user; new evals)
+
+Three related DIFC systems added together (Asbestos = root of the label lineage; HiStar adopts its labels; Flume brings the model to stock Unix). Flagged cells:
+
+| System | Cell | Status | Note |
+|--------|------|--------|------|
+| **histar** | Memory overhead per domain | ⚠️ Unknown | Not reported per domain; objects carry a label + 64 B metadata + quota (§3). |
+| **histar** | Inter-domain throughput | ⚠️ Unknown | No bw_pipe; only network saturation (100 Mbps wget) reported. |
+| **histar** | Performance scales w/ domain count | _inf_ | Label-op cost grows with label size (§6.2); no Big-O stated. |
+| **histar** | Integrates with other mechanisms | _inf_ | ❌/limited — whole OS; "overlay policy on existing software" is the analog (§6.3). |
+| **histar** | License | ✅ verified | Dual **GPLv2 (kernel `kern/`) + BSD-style (rest)** — repo `github.com/zeldovich/histar` COPYING; GitHub reports NOASSERTION (mixed). |
+| **flume** | TCB size | ✅ (paper) | Flume-specific ≈**21,500 LoC C++** (RM 14k/registry 3.5k/fileserver 2.5k/spawner 1k/LSM 0.5k/patch <100), §5 — but whole Linux/OpenBSD kernel also trusted (Large in effect). |
+| **flume** | Inter-domain throughput | ⚠️ partial | IPC bandwidth measured over 20 GB transfer (multiplier, Fig 8) but exact MB/s not transcribed. |
+| **flume** | Memory overhead per domain | ⚠️ Unknown | Not reported per confined process. |
+| **flume** | License | ⚠️ **needs verify** | MIT-CSAIL research prototype (`flume.csail.mit.edu`); specific license NOT confirmed (name heavily overloaded — Apache Flume / Rust flume crate pollute search). Needs a canonical-repo check. |
+| **asbestos** | TCB size (LOC) | _inf (external)_ | Paper gives **no** kernel LOC. HiStar §4.1 says its 15,200-C-line kernel is "~45% fewer lines of C than the Asbestos kernel" ⇒ **≈27,000 C lines** — external inference, not an Asbestos claim. |
+| **asbestos** | License | ⚠️ partial | Open source, **BSD/MIT mixture + ≥1 GPL component (Ethernet driver)**, historically via CVS; not in paper; needs per-file confirmation. |
+| **asbestos** | Integrates with other mechanisms | _inf_ | ❌ — whole new OS. |
+| **all three** | Debugging / expertise / config / maintenance / monitoring | N/A | Per POLICY 2026-06-09 (self-report). Exceptions kept: HiStar Debugging = "Standard (gdb via per-process debug gate)" (§5.2); Flume Debugging = mixed (silent message drops vs reportable endpoint errors, §3.3/§4.2). |
+
+**Category note (all three):** the "compartment" is an **information-flow label domain** (DIFC/MAC), not a memory-isolation sandbox — an OS-level point that sits apart from the MPK/SFI in-process systems (cf. the K23 "primitive, not a scheme" edge-case note). This is the DIFC lineage `wedge` cites (HiStar/Asbestos/Flume) as partitioning relatives.
